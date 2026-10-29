@@ -21,5 +21,6 @@ def main() -> None:
         sys.stderr.write(f"Ошибка, файл {filepath} не найден ")
         sys.exit(1)
 
+
 if __name__ == '__main__':
     main()
