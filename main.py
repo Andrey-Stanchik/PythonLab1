@@ -1,5 +1,5 @@
 import sys
-
+import math
 
 def get_filepath() -> str:
     if len(sys.argv) < 2:
@@ -34,14 +34,21 @@ def collect_stats(file_object) -> dict:
 
     return stats
 
+def round_value(value: float) -> float:
+    return math.floor(value * 10.0 + 0.5) / 10.0
+
+def print_sort_stats(stats: dict) -> None:
+    for station in sorted(stats.keys()):
+        min_temperature,sum_temperature, max_temperature, count = stats[station]
+        mean_temperature = round_value(sum_temperature / count)
+        print(f"{station};{min_temperature:.1f};{mean_temperature:.1f};{max_temperature:.1f}")
 
 def main() -> None:
     filepath = get_filepath()
     try:
         with open(filepath, "r", encoding="utf-8") as file:
             stats = collect_stats(file)
-            for station in list(stats.keys())[:3]:
-                print(station, stats[station])
+        print_sort_stats(stats)
     except FileNotFoundError:
         sys.stderr.write(f"Ошибка, файл {filepath} не найден ")
         sys.exit(1)
